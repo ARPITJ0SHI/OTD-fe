@@ -1,0 +1,45 @@
+@import "tailwindcss";
+
+@theme {
+  --color-jet-black: #0A0A0A;
+  --color-graphite: #141414;
+  --color-steel-gray: #3A3A3A;
+  --color-chrome-silver: #C9CCD1;
+  --color-sharp-red: #FF2A2A;
+
+  --color-background: var(--color-jet-black);
+  --color-foreground: var(--color-chrome-silver);
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-heading: var(--font-anton), ui-sans-serif, system-ui, sans-serif;
+  --font-caveat: var(--font-caveat), cursive, sans-serif;
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* GSAP/Lenis utilities */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
