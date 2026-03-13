@@ -131,11 +131,18 @@ export function FlyThroughGallery({
         {/* Immersive dark background */}
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-(--color-jet-black)" />
+          
+          {/* Background Image from Hero - moved here */}
+          <div 
+            className="absolute inset-0 bg-cover bg-center opacity-30 grayscale contrast-125"
+            style={{ backgroundImage: "url('/banner.jpg')" }}
+          />
+          
           {/* Subtle radial spotlight */}
           <div 
-            className="absolute inset-0 opacity-30"
+            className="absolute inset-0 opacity-40"
             style={{
-              background: "radial-gradient(ellipse at 50% 40%, rgba(255, 42, 42, 0.15) 0%, transparent 60%)",
+              background: "radial-gradient(ellipse at 50% 40%, rgba(255, 42, 42, 0.2) 0%, transparent 70%)",
             }}
           />
           {/* Grid lines for depth */}

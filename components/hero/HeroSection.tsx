@@ -1,12 +1,22 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/Button";
 import { Play } from "lucide-react";
 
 export function HeroSection({ preloaderDone = true }: { preloaderDone?: boolean }) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  // Play video only after preloader finishes
+  useEffect(() => {
+    if (preloaderDone && videoRef.current) {
+      videoRef.current.play().catch((err) => {
+        console.warn("Video playback failed:", err);
+      });
+    }
+  }, [preloaderDone]);
   
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -37,10 +47,15 @@ export function HeroSection({ preloaderDone = true }: { preloaderDone?: boolean 
       >
         <div className="absolute inset-0 bg-gradient-to-t from-(--color-jet-black) via-(--color-jet-black)/60 to-transparent z-10" />
         <div className="absolute inset-0 bg-gradient-to-r from-(--color-jet-black) via-transparent to-(--color-jet-black) z-10 opacity-80" />
-        <div 
-          className="absolute inset-0 bg-cover bg-center object-cover opacity-60"
-          style={{ backgroundImage: "url('/banner.jpg')" }}
-        />
+        <video
+          ref={videoRef}
+          muted
+          playsInline
+          loop={false}
+          className="absolute inset-0 w-full h-full object-cover opacity-60"
+        >
+          <source src="/hero_video.mp4" type="video/mp4" />
+        </video>
       </motion.div>
 
       {/* Content Layer with upward parallax and fade */}
