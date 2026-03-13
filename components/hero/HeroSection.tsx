@@ -52,6 +52,8 @@ export function HeroSection({ preloaderDone = true }: { preloaderDone?: boolean 
           muted
           playsInline
           loop={false}
+          preload="auto"
+          poster="/banner.jpg"
           className="absolute inset-0 w-full h-full object-cover opacity-60"
         >
           <source src="/hero_video.mp4" type="video/mp4" />
