@@ -41,8 +41,17 @@ function FlyCard({
         {/* Top accent bar */}
         <div className="absolute top-0 left-0 right-0 h-2 bg-(--color-sharp-red) z-10" />
         
-        {/* Background texture */}
-        <div className="absolute inset-0 bg-gradient-to-b from-(--color-graphite) via-(--color-jet-black) to-(--color-graphite)" />
+        {/* Background Image - Randomized from s1, s2, s3 */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ 
+            backgroundImage: `url('/s${(index % 3) + 1}.png')`,
+            filter: "brightness(0.6) saturate(1.1)" 
+          }}
+        />
+        
+        {/* Background texture / gradient overlay - Softened for visibility */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-(--color-jet-black)/30 to-(--color-jet-black)/70" />
         
         {/* VS Layout */}
         <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center gap-4">
