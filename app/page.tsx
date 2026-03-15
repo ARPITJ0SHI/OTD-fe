@@ -2,7 +2,6 @@ import { HeroSection } from "@/components/hero/HeroSection";
 import { HorizontalScrollBanner } from "@/components/animation/HorizontalScrollBanner";
 import { FlyThroughGallery } from "@/components/animation/FlyThroughGallery";
 import { HomepagePreloader } from "@/components/sections/HomepagePreloader";
-import { UpcomingMatchesSection } from "@/components/sections/UpcomingMatchesSection";
 import { RecentResultsSection } from "@/components/sections/RecentResultsSection";
 import { FeaturedPlayersSection } from "@/components/sections/FeaturedPlayersSection";
 import { HomepageNewsSection } from "@/components/sections/HomepageNewsSection";
@@ -19,7 +18,6 @@ export default function Home() {
 
       <HorizontalScrollBanner text={HOMEPAGE_CONSTANTS.BANNERS.TOP} direction="left" />
 
-      <UpcomingMatchesSection />
       <RecentResultsSection />
 
       <FlyThroughGallery />
