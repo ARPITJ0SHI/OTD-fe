@@ -1,24 +1,43 @@
-import { MatchSection } from "@/components/matches/MatchSection";
-import { MatchCard } from "@/components/matches/MatchCard";
-import { RevealWrapper } from "@/components/animation/RevealWrapper";
+import { Container } from "@/components/ui/Container";
+import { SectionHeading } from "@/components/ui/SectionHeading";
+import { ResultBanner } from "@/components/matches/ResultBanner";
 import { HOMEPAGE_CONSTANTS } from "@/constants/landingData";
+import { ArrowRight } from "lucide-react";
+import Link from "next/link";
+import { RevealWrapper } from "@/components/animation/RevealWrapper";
 
 export function RecentResultsSection() {
   return (
-    <MatchSection title="Recent Results" subtitle="Archive">
-      {HOMEPAGE_CONSTANTS.RECENT_RESULTS.map((match, idx) => (
-        <RevealWrapper key={match.id} delay={0.1 * (idx + 1)} className="h-full">
-          <MatchCard
-            playerA={match.playerA}
-            playerB={match.playerB}
-            date={match.date}
-            location={match.location}
-            status={match.status}
-            scoreA={match.scoreA}
-            scoreB={match.scoreB}
-          />
+    <section className="py-24 bg-(--color-jet-black)">
+      <Container>
+        <SectionHeading title="Recent Results" subtitle="Archive" />
+        
+        <div className="flex flex-col border-t border-white/10">
+          {HOMEPAGE_CONSTANTS.RECENT_RESULTS.map((match, idx) => (
+            <ResultBanner 
+              key={match.id}
+              playerA={match.playerA}
+              playerB={match.playerB}
+              scoreA={match.scoreA || 0}
+              scoreB={match.scoreB || 0}
+              date={match.date}
+              location={match.location}
+            />
+          ))}
+        </div>
+
+        <RevealWrapper delay={0.4} className="mt-12 flex justify-center">
+          <Link 
+            href="/matches" 
+            className="group flex items-center gap-4 px-8 py-4 border border-white/10 hover:border-(--color-sharp-red) bg-white/5 hover:bg-(--color-sharp-red) transition-all duration-300"
+          >
+            <span className="font-heading uppercase tracking-widest text-sm text-white">
+              View All History
+            </span>
+            <ArrowRight size={18} className="text-white group-hover:translate-x-1 transition-transform" />
+          </Link>
         </RevealWrapper>
-      ))}
-    </MatchSection>
+      </Container>
+    </section>
   );
 }

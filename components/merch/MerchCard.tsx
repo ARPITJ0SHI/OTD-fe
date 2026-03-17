@@ -13,21 +13,19 @@ export function MerchCard({
     imageUrl?: string;
     available?: boolean;
 }) {
+    // Generate unique seeded images based on product title for variety
+    const randomMerchImage = `https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=800&auto=format&fit=crop&sig=${encodeURIComponent(title)}`;
+    const displayImage = imageUrl || randomMerchImage;
+
     return (
         <Card className="group flex flex-col h-full bg-(--color-jet-black) border-(--color-steel-gray) hover:border-(--color-sharp-red) overflow-hidden p-4">
             <div className="relative w-full aspect-[4/5] bg-(--color-graphite) rounded-lg mb-4 overflow-hidden">
-                {imageUrl ? (
-                    <Image
-                        src={imageUrl}
-                        alt={title}
-                        fill
-                        className="object-cover group-hover:scale-110 transition-transform duration-700"
-                    />
-                ) : (
-                    <div className="absolute inset-0 flex items-center justify-center text-(--color-steel-gray)">
-                        <span className="font-heading text-4xl">OTD X MERCH</span>
-                    </div>
-                )}
+                <Image
+                    src={displayImage}
+                    alt={title}
+                    fill
+                    className="object-cover group-hover:scale-110 transition-transform duration-700"
+                />
             </div>
 
             <div className="flex flex-col flex-1 items-center text-center">

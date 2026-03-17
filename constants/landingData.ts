@@ -56,10 +56,10 @@ export const HOMEPAGE_CONSTANTS = {
   ],
 
   FEATURED_PLAYERS: [
-    { id: "p1", name: "Zion", nickname: "The Ghost", wins: 42, losses: 5 },
-    { id: "p2", name: "Marcus", nickname: "Steel", wins: 38, losses: 12 },
-    { id: "p3", name: "Tyrese", nickname: "Flow", wins: 29, losses: 4 },
-    { id: "p4", name: "Darnell", nickname: "ICE", wins: 45, losses: 18 },
+    { id: "p1", name: "Zion", nickname: "The Ghost", wins: 42, losses: 5, imageUrl: "https://images.unsplash.com/photo-1546519638-68e109498ffc?q=80&w=800&auto=format&fit=crop" },
+    { id: "p2", name: "Marcus", nickname: "Steel", wins: 38, losses: 12, imageUrl: "https://images.unsplash.com/photo-1519861531473-9200262188bf?q=80&w=800&auto=format&fit=crop" },
+    { id: "p3", name: "Tyrese", nickname: "Flow", wins: 29, losses: 4, imageUrl: "https://images.unsplash.com/photo-1504450758481-7338eba7524a?q=80&w=800&auto=format&fit=crop" },
+    { id: "p4", name: "Darnell", nickname: "ICE", wins: 45, losses: 18, imageUrl: "https://images.unsplash.com/photo-1518063319789-7217e6706b04?q=80&w=800&auto=format&fit=crop" },
   ],
 
   NEWS: [

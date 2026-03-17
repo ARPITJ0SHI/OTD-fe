@@ -18,7 +18,7 @@ export function PlayerCard({
 
     return (
         <Card className="flex flex-col h-full bg-(--color-graphite) border-(--color-steel-gray) hover:border-(--color-sharp-red) overflow-hidden group">
-            <div className="relative w-full aspect-square bg-(--color-jet-black)">
+            <div className="relative w-full aspect-square bg-(--color-jet-black) overflow-hidden">
                 {imageUrl ? (
                     <Image
                         src={imageUrl}
