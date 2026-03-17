@@ -63,7 +63,7 @@ export const HOMEPAGE_CONSTANTS = {
   ],
 
   NEWS: [
-    { id: "n1", title: "Darnell ICE Extends Winning Streak to 15 Games", category: "Highlights", date: "MARCH 20, 2026", featured: true },
+    { id: "n1", title: "Darnell ICE Extends Winning Streak to 15 Games", category: "Highlights", date: "MARCH 20, 2026", featured: true, imageUrl: "/s1.png" },
     { id: "n2", title: "New York Summer League Announced", category: "Announcements", date: "MARCH 18, 2026" },
     { id: "n3", title: "Zion vs Steel: The Rematch We've Been Waiting For", category: "Announcements", date: "MARCH 15, 2026" },
     { id: "n4", title: "Flash Takes the Crown at The Dungeon", category: "Results", date: "MARCH 11, 2026" },

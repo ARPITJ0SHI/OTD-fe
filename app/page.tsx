@@ -18,9 +18,8 @@ export default function Home() {
 
       <HorizontalScrollBanner text={HOMEPAGE_CONSTANTS.BANNERS.TOP} direction="left" />
 
-      <RecentResultsSection />
-
       <FlyThroughGallery />
+      <RecentResultsSection />
 
       <FeaturedPlayersSection />
       <HomepageNewsSection />

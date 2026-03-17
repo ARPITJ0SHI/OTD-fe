@@ -9,7 +9,6 @@ export function HeroSection({ preloaderDone = true }: { preloaderDone?: boolean 
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  // Play video only after preloader finishes
   useEffect(() => {
     if (preloaderDone && videoRef.current) {
       videoRef.current.play().catch((err) => {
@@ -23,7 +22,6 @@ export function HeroSection({ preloaderDone = true }: { preloaderDone?: boolean 
     offset: ["start start", "end start"],
   });
 
-  // Automatically pause the video when scrolling starts, play when back at the top
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
     if (!videoRef.current) return;
     if (latest > 0.02 && !videoRef.current.paused) {
@@ -33,39 +31,31 @@ export function HeroSection({ preloaderDone = true }: { preloaderDone?: boolean 
     }
   });
 
-  // SCROLL CHOREOGRAPHY MATH
-  // 1. Black Screen: Fades in completely by 15% scroll.
-  const blackScreenOpacity = useTransform(scrollYProgress, [0, 0.05, 0.15], [0, 0, 1]);
-  
-  // 2. Volumetric Lightning: Explosive radial burst peaking at 15% scroll (synced with text illuminate).
-  const lightningOpacity = useTransform(scrollYProgress, [0.10, 0.15, 0.20, 0.25], [0, 1, 0.3, 0]);
-  
-  // 3. Text Reveal: Hits full opacity (1) at the peak of the flash (0.15) for illumination effect.
-  const textOpacity = useTransform(scrollYProgress, [0, 0.10, 0.15, 0.85, 1], [0, 0, 1, 1, 0]);
-  const textScale = useTransform(scrollYProgress, [0, 0.10, 0.15, 0.85, 1], [1.1, 1.1, 1, 1, 0.95]);
-  const textY = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], ["10vh", "0vh", "0vh", "-10vh"]);
+  const videoScale = useTransform(scrollYProgress, [0, 0.4], [1, 1.15]);
+  const videoOpacity = useTransform(scrollYProgress, [0.1, 0.4], [1, 0.2]);
 
-  // Clean, subtle chamfered top corners
-  const cleanFrameClipPath = {
-    clipPath: "polygon(4vw 0, calc(100% - 4vw) 0, 100% 4vw, 100% 100%, 0 100%, 0 4vw)",
-  };
+  const textScale = useTransform(scrollYProgress, [0, 0.2, 0.4], [4, 1.5, 1]);
+  const textOpacity = useTransform(scrollYProgress, [0, 0.15, 0.4], [0, 0.8, 1]);
+  const textY = useTransform(scrollYProgress, [0, 0.4, 0.8, 1], ["10vh", "-8vh", "-8vh", "-25vh"]);
+  const textBlur = useTransform(scrollYProgress, [0, 0.2, 0.4], ["blur(20px)", "blur(8px)", "blur(0px)"]);
+
+  const contentOpacity = useTransform(scrollYProgress, [0.3, 0.5], [0, 1]);
+  const contentY = useTransform(scrollYProgress, [0.3, 0.5], ["30px", "0px"]);
 
   return (
     <section 
       ref={containerRef} 
-      className="relative h-[150vh] w-full bg-black pt-[80px]" 
+      className="relative h-[200vh] w-full bg-black" 
     >
-      <div 
-        className="sticky top-[80px] h-[calc(100vh-80px)] w-full overflow-hidden flex items-center justify-center bg-black"
-        style={cleanFrameClipPath}
-      >
+      <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col items-center justify-center bg-black">
         
         {/* Layer 0: Background Video */}
         <motion.div 
-          className="absolute inset-0 w-full h-full z-0"
+          className="absolute inset-0 w-full h-full z-0 origin-center"
           initial={{ opacity: 0 }}
           animate={{ opacity: preloaderDone ? 1 : 0 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
+          style={{ scale: videoScale, opacity: videoOpacity, willChange: "transform, opacity" }}
         >
           <video
             ref={videoRef}
@@ -78,66 +68,58 @@ export function HeroSection({ preloaderDone = true }: { preloaderDone?: boolean 
           >
             <source src="/hero_video.mp4" type="video/mp4" />
           </video>
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/60" />
         </motion.div>
 
-        {/* Layer 1: The Blackout Overlay */}
+        {/* Layer 1: The Massive Animated Title */}
         <motion.div 
-          className="absolute inset-0 w-full h-full bg-black z-10"
-          style={{ opacity: blackScreenOpacity, willChange: "opacity" }}
-        />
-
-        {/* Layer 2: Volumetric Cinematic Lightning Flash */}
-        <motion.div 
-          className="absolute inset-0 w-full h-full z-20 pointer-events-none origin-center"
-          style={{ 
-            opacity: lightningOpacity, 
-            scale: 1.5,
-            mixBlendMode: "color-dodge",
-            background: "radial-gradient(circle at center, white 0%, rgba(255,255,255,0.8) 30%, transparent 70%)",
-            willChange: "opacity" 
-          }}
-        />
-
-        {/* Layer 3: Hero Content (Text & Buttons) */}
-        <motion.div 
-          className="relative z-30 flex flex-col items-center text-center px-4 w-full"
+          className="absolute inset-0 z-30 flex flex-col items-center justify-center w-full pointer-events-none"
           style={{ 
             y: textY, 
             opacity: textOpacity, 
             scale: textScale,
-            willChange: "transform, opacity, scale" 
+            filter: textBlur,
+            willChange: "transform, opacity, filter" 
           }}
         >
-          <div className="overflow-hidden mb-4">
-            <span className="inline-block text-white tracking-[0.3em] font-heading uppercase text-sm md:text-lg drop-shadow-md">
-              The Streets Are Calling
+          <div className="flex flex-col items-center justify-center w-full leading-[0.85] md:leading-[0.8]">
+            <span 
+              className="font-heading font-black italic text-6xl md:text-8xl lg:text-[10rem] uppercase tracking-tighter text-transparent"
+              style={{ WebkitTextStroke: "2px rgba(255, 255, 255, 0.9)" }}
+            >
+              Off The
+            </span>
+            <span 
+              className="font-heading font-black italic text-7xl md:text-[8rem] lg:text-[12rem] uppercase tracking-tighter text-[#FF2020] relative z-10 -mt-2 md:-mt-4 lg:-mt-8"
+              style={{ textShadow: "0 10px 40px rgba(255, 32, 32, 0.6)" }}
+            >
+              Dribble
             </span>
           </div>
+        </motion.div>
+
+        {/* Layer 2: Subtitle & Buttons - Pushed slightly lower to fix overlap */}
+        <motion.div
+          className="absolute bottom-10 md:bottom-16 lg:bottom-20 z-40 flex flex-col items-center text-center px-6 w-full max-w-4xl"
+          style={{
+            opacity: contentOpacity,
+            y: contentY,
+            willChange: "transform, opacity"
+          }}
+        >
+          <p className="text-white/90 text-sm md:text-lg lg:text-xl font-sans font-medium mb-10 tracking-wide drop-shadow-md">
+            The ultimate street basketball platform showcasing the most competitive 1v1, 2v2, and 3v3 matchups around the globe.
+          </p>
           
-          <div className="overflow-hidden mb-6 flex justify-center w-full">
-            <div className="flex flex-col md:flex-row gap-4 md:gap-8 justify-center items-center">
-              <span className="font-heading text-6xl md:text-8xl lg:text-9xl leading-none uppercase tracking-tighter text-white drop-shadow-2xl">
-                Off The
-              </span>
-              <span className="font-heading text-7xl md:text-9xl lg:text-[10rem] leading-none uppercase tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-700 drop-shadow-2xl"
-                    style={{ textShadow: "0 10px 30px rgba(255, 42, 42, 0.4)" }}
-              >
-                Dribble
-              </span>
-            </div>
-          </div>
-          
-          <div className="overflow-hidden mb-12 max-w-2xl">
-            <p className="text-white text-lg md:text-2xl font-sans drop-shadow-lg font-medium">
-              The ultimate street basketball platform showcasing the most competitive 1v1, 2v2, and 3v3 matchups around the globe.
-            </p>
-          </div>
-          
-          <div className="overflow-hidden flex flex-col sm:flex-row gap-4">
-            <Button size="lg" className="gap-2 shadow-lg">
-              <Play size={20} fill="currentColor" /> Watch Latest
+          <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 w-full sm:w-auto justify-center">
+            {/* FIX: Added !text-black, !bg-white to force override your global button styles, 
+                and explicitly colored the Play icon stroke/fill to black 
+            */}
+            <Button size="lg" className="gap-2 !bg-white !text-black hover:!bg-gray-200 transition-colors uppercase tracking-widest font-bold text-sm h-14 px-8">
+              <Play size={18} fill="black" stroke="black" /> Watch Latest
             </Button>
-            <Button variant="outline" size="lg" className="bg-transparent text-white border-white hover:bg-white hover:text-black shadow-lg">
+            
+            <Button variant="outline" size="lg" className="bg-black/20 text-white border-2 border-white/40 hover:bg-white/10 hover:border-white transition-all uppercase tracking-widest font-bold text-sm h-14 px-8 backdrop-blur-md">
               View Schedule
             </Button>
           </div>

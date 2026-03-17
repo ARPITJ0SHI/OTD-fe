@@ -16,6 +16,7 @@ export function HomepageNewsSection() {
             title={news.title}
             category={news.category}
             date={news.date}
+            imageUrl={news.imageUrl}
             featured={news.featured}
           />
         </RevealWrapper>
