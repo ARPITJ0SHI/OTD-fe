@@ -16,6 +16,19 @@ export function HomepagePreloader({ children }: HomepagePreloaderProps) {
 
   return (
     <>
+      {/* Server-rendered cover — only on homepage, hidden once PreloaderOverlay hydrates */}
+      {!preloaderDone && (
+        <div
+          id="preloader-cover"
+          style={{
+            position: "fixed",
+            inset: 0,
+            zIndex: 9998,
+            backgroundColor: "#FF2A2A",
+            pointerEvents: "none",
+          }}
+        />
+      )}
       <PreloaderOverlay onComplete={handlePreloaderComplete} />
       {/* We intercept the children (HeroSection) and inject the preloaderDone prop */}
       {isValidElement(children) 

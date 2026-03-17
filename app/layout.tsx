@@ -40,17 +40,6 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${anton.variable} ${caveat.variable} font-sans antialiased`}
       >
-        {/* Server-rendered cover — visible from first paint, hidden once PreloaderOverlay hydrates */}
-        <div
-          id="preloader-cover"
-          style={{
-            position: "fixed",
-            inset: 0,
-            zIndex: 9998,
-            backgroundColor: "#FF2A2A",
-            pointerEvents: "none",
-          }}
-        />
         <SmoothScrollProvider>
           <Navbar />
           {children}
